@@ -1,0 +1,14 @@
+{% block content %}
+    <h1>Lista de cultivos</h1>
+    {% if cultivo_list %}
+    <ul>
+      {% for cultivo in cultivo_list %}
+      <li>
+        <a href="{{ cultivo.get_absolute_url }}">{{ cultivo.nombre }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No hay cultivos.</p>
+    {% endif %}
+{% endblock %}

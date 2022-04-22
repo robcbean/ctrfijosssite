@@ -13,12 +13,10 @@ class ConceptoGasto(models.Model):
 class Cultivo(models.Model):
     nombre = models.CharField(max_length=100)
 
-class Cultivo(models.Model):
-    nombre = models.CharField(max_length=100)
-
 class Variedad(models.Model):
     nombre = models.CharField(max_length=100)
     finalizada = models.IntegerField()
+    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
 
 class ConceptoGasto(models.Model):
     comentrio = models.CharField(max_length=100)

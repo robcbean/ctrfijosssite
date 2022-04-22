@@ -4,25 +4,25 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
-from controlfitos.models import Agricultor, Cliente
+from django.views.generic.list import ListView
+from controlfitos.models import Agricultor, Cliente, Cultivo
 
-#nombre = models.CharField(max_length=100)
-#domicilio = models.CharField(max_length=250)
-#cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-#campanya = models.CharField(max_length=100)
 
+class CultivoCreateView(CreateView):
+    model = Cultivo
+    fields = ['nombre']
+
+class CultivoListView(ListView):
+    model = Cultivo
+    fields = ['nombre']
 
 class AgricultorCreateView(CreateView):
     model = Agricultor
     fields = ['nombre','domicilio','cliente','campanya']
-    success_url = '/thanks/'
-
 
 class AgricultorUpdateView(UpdateView):
     models = Agricultor
-    fields = ['nombre','domicilio','cliente','campanya']
-    success_url = '/thanks/'
-
+    fields = ['nombre','domicilio','campanya']
 
 class ClienteCreateView(CreateView):
     model = Cliente
