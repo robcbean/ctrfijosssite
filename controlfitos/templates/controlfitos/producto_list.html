@@ -1,0 +1,16 @@
+{% extends "controlfitos/base_template.html" %}
+{% block content %}
+    <h1>Lista de producots</h1>
+    {% if producto_list %}
+    <ul>
+      {% for producto in producto_list %}
+      <li>
+        <a href="{{ producto.producto_list }}">{{ producto.nombre }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No hay productos.</p>
+    {% endif %}
+    <a href="/controlfitos/variedad/add">Añadir producto</a>
+{% endblock %}

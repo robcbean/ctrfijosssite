@@ -1,3 +1,4 @@
+{% extends "controlfitos/base_template.html" %}
 {% block content %}
     <h1>Lista de cultivos</h1>
     {% if cultivo_list %}
@@ -11,4 +12,5 @@
     {% else %}
       <p>No hay cultivos.</p>
     {% endif %}
+    <a href="/controlfitos/cultivo/add">Añadir cultivo</a>
 {% endblock %}

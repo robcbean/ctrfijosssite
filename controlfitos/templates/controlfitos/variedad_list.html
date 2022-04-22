@@ -1,0 +1,16 @@
+{% extends "controlfitos/base_template.html" %}
+{% block content %}
+    <h1>Lista de varidades</h1>
+    {% if variedad_list %}
+    <ul>
+      {% for variedad in variedad_list %}
+      <li>
+        <a href="{{ variedad.get_absolute_url }}">{{ variedad.nombre }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No hay variedades.</p>
+    {% endif %}
+    <a href="/controlfitos/variedad/add">Añadir variedad</a>
+{% endblock %}

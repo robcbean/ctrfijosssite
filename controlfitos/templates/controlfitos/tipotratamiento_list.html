@@ -1,0 +1,16 @@
+{% extends "controlfitos/base_template.html" %}
+{% block content %}
+    <h1>Lista de varidades</h1>
+    {% if tipotratamiento_list %}
+    <ul>
+      {% for tratamiento in tipotratamiento_list %}
+      <li>
+        <a href="{{ tratamiento.get_absolute_url }}">{{ tratamiento.nombre }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No hay tratamientos.</p>
+    {% endif %}
+    <a href="/controlfitos/tipotratamiento/add">Añadir tratamiento</a>
+{% endblock %}

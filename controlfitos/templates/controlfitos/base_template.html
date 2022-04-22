@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <style type="text/css">
+        .sidebar{
+            height: 100%;
+            width: 160px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            backface-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px
+        }
+        .sidebar a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            display: block;
+        }
+        .main {
+            margin-left: 100px;
+        }
+    </style>
+    <title>Control tratamientos y salidas del campo</title>
+</head>
+<body>
+
+<div class="sidenav">
+    <a href="/controlfitos/agricultor/1">Agricultor</a>
+    <a href="/controlfitos/cliente/1">Cliente</a>
+    <a href="/controlfitos/cultivo/list">Cultivos</a>
+    <a href="/controlfitos/variedad/list">Variedades</a>
+    <a href="/controlfitos/tipotratamiento/list">Tipos tratamientos</a>
+    <a href="/controlfitos/producto/list">Productos</a>
+
+</div>
+
+<div id="content" name="content">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+</body>
+</html>

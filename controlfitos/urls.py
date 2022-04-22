@@ -15,4 +15,14 @@ urlpatterns = [
     path('cultivo/add', views.CultivoCreateView.as_view(), name='cultivos-add'),
 
 
+    path('variedad/list', views.VaridadListView.as_view(), name='variedad-list'),
+    path('variedad/add', views.VaridadCreateView.as_view(), name='varieadd-add'),
+
+    path('tipotratamiento/list', views.TipoTratamientoList.as_view(), name='tipotratamiento-list'),
+    path('tipotratamiento/add', views.TipoTratamientoCreateView.as_view(), name='tipotratamiento-add'),
+
+    path('producto/list', views.ProductoList.as_view(), name='producto-list'),
+    path('producto/add', views.ProductoCreateView.as_view(), name='producto-add'),
+
+
 ]
