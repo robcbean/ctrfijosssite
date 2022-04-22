@@ -35,10 +35,10 @@ class Gasto(models.Model):
 
 class Agricultor(models.Model):
     nombre = models.CharField(max_length=100)
+    campanya = models.CharField(max_length=100)
     domicilio = models.CharField(max_length=250)
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
-    campanya = models.CharField(max_length=100)
-
+    cif = models.CharField(max_length=10)
 
 class CabSalida(models.Model):
     fecha = models.DateField()
@@ -59,10 +59,6 @@ class Salida(models.Model):
     cabSalida = models.ForeignKey(CabSalida,on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
 
-
-#class TipoTratamientoProducto(models.Model):
-
-#class TipoTratamientoTratamiento
 
 class Tratamiento(models.Model):
     fecha = models.DateField()
