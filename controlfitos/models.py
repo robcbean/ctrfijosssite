@@ -10,7 +10,7 @@ class Cliente(models.Model):
     cif = models.CharField(max_length=10,default='')
 
 class ConceptoGasto(models.Model):
-    comentario = models.CharField(max_length=100,default='')
+    comentario = models.CharField(max_length=150,default=' ')
 
 class Cultivo(models.Model):
     nombre = models.CharField(max_length=100,default='')
@@ -19,9 +19,6 @@ class Variedad(models.Model):
     nombre = models.CharField(max_length=100,default='')
     finalizada = models.IntegerField(default=0)
     cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
-
-class ConceptoGasto(models.Model):
-    comentrio = models.CharField(max_length=100,default='')
 
 
 class TipoTratamiento(models.Model):
@@ -70,6 +67,9 @@ class Tratamiento(models.Model):
 class VariedadesTratamiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento,on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
+    cantidad = models.FloatField(default=0)
+
+
 
 
 
