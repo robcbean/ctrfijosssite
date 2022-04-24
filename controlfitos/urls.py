@@ -1,8 +1,8 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
+
     path('', views.index, name='index'),
 
     path('agricultor/add',views.AgricultorCreateView.as_view(),name='agricultor-add'),

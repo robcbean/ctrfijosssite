@@ -34,6 +34,14 @@ class OutputReports:
         plt.xticks(ticks=years)
         self.exportFile(_outputfile)
 
+    def reportYearCultivoEvolution(self,_years,_weight,_variedad,_outputfile=""):
+        title = f'Kilos de {_variedad} por año'
+        years = self.normalizeYears(_years)
+        self.barReport(years,"Años",_weight, "Kilos",title)
+        plt.xticks(ticks=years)
+        self.exportFile(_outputfile)
+
+
 
 
 
