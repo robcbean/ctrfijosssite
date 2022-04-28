@@ -119,7 +119,10 @@ def reports(request):
 
 def report(request,report_id):
     template = loader.get_template("controlfitos/report_template.html")
-    context = {}
+    context = {
+        'report_id' : report_id,
+    }
+    print(f'Report_id:{report_id}')
     return HttpResponse(template.render(context,request))
 
 

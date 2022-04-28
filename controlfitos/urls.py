@@ -24,9 +24,9 @@ urlpatterns = [
     path('producto/list', views.ProductoList.as_view(), name='producto-list'),
     path('producto/add', views.ProductoCreateView.as_view(), name='producto-add'),
 
-    path('reports/', views.reports, name='reports'),
+    path('reports/<str:report_id>/', views.report, name='report'),
 
-    path('report/<str:report_id>', views.report, name='report'),
+    path('reports/', views.reports, name='reports'),
 
 
 
