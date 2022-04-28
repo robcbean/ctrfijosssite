@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.template import loader
 
 # Create your views here.
 
@@ -111,5 +112,18 @@ class ClienteUpdateView(UpdateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
 
+def reports(request):
+    template = loader.get_template("controlfitos/reports_template.html")
+    context = {}
+    return HttpResponse(template.render(context,request))
+
+def report(request,report_id):
+    template = loader.get_template("controlfitos/report_template.html")
+    context = {}
+    return HttpResponse(template.render(context,request))
+
+
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    template = loader.get_template("controlfitos/base_template.html")
+    context = {}
+    return HttpResponse(template.render(context,request))
