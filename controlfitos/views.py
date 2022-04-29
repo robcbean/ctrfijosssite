@@ -1,15 +1,20 @@
-from django.shortcuts import render
+
 from django.template import loader
-
-# Create your views here.
-
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto
+from controlfitos.reporting.reports import  OutputReports
 
+
+outputReport = OutputReports()
+
+
+class Reports:
+    KilosPorAnyo = "kilosporanyo"
+    KilosPorVaridad = "kilosporvariedad"
 
 class ProductoCreateView(CreateView):
     model = Producto
@@ -117,12 +122,22 @@ def reports(request):
     context = {}
     return HttpResponse(template.render(context,request))
 
+
 def report(request,report_id):
+    file_image = ""
     template = loader.get_template("controlfitos/report_template.html")
+    if report_id == Reports.KilosPorAnyo:
+        print(f'exportando fichero de salida')
+        agricultor = Agricultor()
+        anyos, kilos = agricultor.getKilosPorAnyo()
+        file_name = f'static/{report_id}.jpg'
+        out_file_image = f'controlfitos/{file_name}'
+        outputReport.reportYearTotalEvolution(anyos,kilos,out_file_image)
     context = {
-        'report_id' : report_id,
+        'report_id'  : report_id,
+        'report_img' : file_image,
     }
-    print(f'Report_id:{report_id}')
+    print(f'Report_id:{report_id}\t{file_image}')
     return HttpResponse(template.render(context,request))
 
 

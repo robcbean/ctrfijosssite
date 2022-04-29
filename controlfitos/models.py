@@ -1,7 +1,8 @@
-
+import datetime
 
 import django
 from django.db import models
+from django.db import connection
 
 
 class Cliente(models.Model):
@@ -19,6 +20,7 @@ class Variedad(models.Model):
     nombre = models.CharField(max_length=100,default='')
     finalizada = models.IntegerField(default=0)
     cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
+
 
 
 class TipoTratamiento(models.Model):
@@ -39,6 +41,27 @@ class Agricultor(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
     cif = models.CharField(max_length=10,default='')
 
+    def getKilosPorAnyo(self):
+        query = 'SELECT' \
+                '    YEAR(T0.fecha) as "year" ' \
+                '    ,SUM(T1.cantidad) as kilos' \
+                '	 FROM   controlfitos_cabsalida T0 ' \
+                '	 JOIN controlfitos_salida T1 ON T1.cabSalida_id = T0.id' \
+                '    JOIN  controlfitos_variedad T2 ON T2.id = T1.variedad_id' \
+                '    GROUP BY YEAR(T0.fecha)'
+        years = []
+        kilos = []
+        cursor = connection.cursor()
+
+        cursor.execute(query)
+        records = cursor.fetchall()
+        for record in records:
+            years.append(record[0])
+            kilos.append(record[1])
+
+
+        return years,kilos
+
 class CabSalida(models.Model):
     fecha = models.DateField(default=django.utils.timezone.now)
 
@@ -53,6 +76,7 @@ class Producto(models.Model):
 class Salida(models.Model):
     cantidad = models.FloatField(default=0)
     precio = models.FloatField(default=0)
+    fecha = models.DateField(default=datetime.date.today())
     albaran = models.CharField(max_length=100,default='')
     factura = models.CharField(max_length=100,default='')
     cabSalida = models.ForeignKey(CabSalida, on_delete=models.CASCADE)

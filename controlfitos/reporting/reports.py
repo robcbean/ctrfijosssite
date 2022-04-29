@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+
 class OutputReports:
     def __init__(self,_colour = "blue"):
         self.colour = _colour
     def exportFile(self,_outputfile):
-        if _outputfile != ""
+        if _outputfile != "":
             plt.savefig(_outputfile)
         else:
             plt.show()
