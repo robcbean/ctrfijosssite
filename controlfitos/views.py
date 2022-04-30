@@ -130,6 +130,12 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
     file_image = ""
     base_name = ""
     template = loader.get_template("controlfitos/report_template.html")
+
+    if request.method == 'POST':
+        start_year = request.POST.get('start_year')
+        if start_year != '':
+            start_year = int(start_year)
+
     if report_id == Reports.KilosPorAnyo:
         print(f'exportando fichero de salida')
         anyos, kilos = Agricultor.getKilos(start_year=start_year, end_year=end_year, cultivo_id=cultivo, variedad_id=variedad)
@@ -137,11 +143,13 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
         file_name = f'static/{base_name}'
         out_file_image = f'controlfitos/{file_name}'
         outputReport.reportYearTotalEvolution(anyos,kilos,out_file_image)
-        anyos = []
-        kilos = []
     context = {
         'report_id'  : report_id,
         'report_img' : base_name,
+        'start_year' : start_year,
+        'end_year' : end_year,
+        'cultivo_id' : cultivo,
+        'variedad_id' : variedad,
     }
     print(f'Report_id:{report_id}\t{file_image}')
     return HttpResponse(template.render(context,request))

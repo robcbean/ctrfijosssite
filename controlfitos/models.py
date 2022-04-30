@@ -1,6 +1,4 @@
 import datetime
-import sys
-
 import django
 from django.db import models
 from django.db import connection
@@ -50,6 +48,7 @@ class Agricultor(models.Model):
                 '	 FROM   controlfitos_cabsalida T0 ' \
                 '	 JOIN controlfitos_salida T1 ON T1.cabSalida_id = T0.id' \
                 '    JOIN  controlfitos_variedad T2 ON T2.id = T1.variedad_id' \
+                '    JOIN  controlfitos_cultivo T3 ON T3.id = T2.cultivo_id' \
                 '    WHERE 1=1 ' \
 
         if start_year != 0:
@@ -57,6 +56,12 @@ class Agricultor(models.Model):
 
         if end_year != 0:
             query = query + f' AND YEAR(T0.fecha)<={end_year}'
+
+        if cultivo_id != 0:
+            query = query + f' AND T3.id = {cultivo_id}'
+
+        if variedad_id != 0:
+            query = query + f' AND T2.id = {variedad_id}'
 
         query = query +  '    GROUP BY YEAR(T0.fecha)'
         years = []
@@ -76,6 +81,14 @@ class Agricultor(models.Model):
 
 class CabSalida(models.Model):
     fecha = models.DateField(default=django.utils.timezone.now)
+    @staticmethod
+    def getMinYear():
+        cursor = connection.cursor()
+        query = 'SELECT IFNULL(MIN(YEAR(fecha)),0) FROM controlfitos_cabsalida'
+        ret = cursor.execute(query).fetch_one()[0]
+        return  ret
+
+
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100,default='')

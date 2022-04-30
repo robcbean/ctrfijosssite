@@ -12,6 +12,10 @@ class OutputReports:
         else:
             plt.show()
 
+        plt.close()
+        plt.cla()
+        plt.clf()
+
     def barReport(self,_x,_x_label,_y,_y_label,_title):
         plt.bar(_x,_y,color=self.colour)
         plt.xlabel(_x_label)

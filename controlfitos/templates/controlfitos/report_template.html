@@ -1,5 +1,17 @@
 {% extends "controlfitos/base_template.html" %}
 {% load static %}
 {% block content %}
+{% load report_load %}
+<form method="post">{% csrf_token %}
+    <label for="lbl_start_year">Año inicial</label>
+    {{ % create_array as my_array %}}
+    <select name="start_year">
+        <option value="0">_</option>
+        {% for year in my_array %}
+            <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Ejecutar informe">
+</form>
 <img src="{% static  report_img  %}"/>
 {% endblock content %}
