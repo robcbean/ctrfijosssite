@@ -24,13 +24,12 @@ urlpatterns = [
     path('producto/list', views.ProductoList.as_view(), name='producto-list'),
     path('producto/add', views.ProductoCreateView.as_view(), name='producto-add'),
 
-    path('reports/<str:report_id>/', views.report, name='report'),
 
     path('reports/', views.reports, name='reports'),
-
-
-
-
-
+    path('reports/<str:report_id>/', views.report),
+    path('reports/<str:report_id>/<int:start_year>/',views.report),
+    path('reports/<str:report_id>/<int:start_year>/<int:end_year>',views.report),
+    path('reports/<str:report_id>/<int:start_year>/<int:end_year>/<int:cultivo>',views.report),
+    path('reports/<str:report_id>/<int:start_year>/<int:end_year>/<int:cultivo>/<int:variedad>',views.report),
 
 ]

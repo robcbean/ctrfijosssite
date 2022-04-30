@@ -119,22 +119,26 @@ class ClienteUpdateView(UpdateView):
 
 def reports(request):
     template = loader.get_template("controlfitos/reports_template.html")
-    context = {}
+    context = {
+               'KilosPorAnyo' : Reports.KilosPorAnyo,
+               'KilosPorVaridad': Reports.KilosPorVaridad,
+    }
     return HttpResponse(template.render(context,request))
 
 
-def report(request,report_id):
+def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
     file_image = ""
     base_name = ""
     template = loader.get_template("controlfitos/report_template.html")
     if report_id == Reports.KilosPorAnyo:
         print(f'exportando fichero de salida')
-        agricultor = Agricultor()
-        anyos, kilos = agricultor.getKilosPorAnyo()
+        anyos, kilos = Agricultor.getKilos(start_year=start_year, end_year=end_year, cultivo_id=cultivo, variedad_id=variedad)
         base_name = f'{report_id}.jpg'
         file_name = f'static/{base_name}'
         out_file_image = f'controlfitos/{file_name}'
         outputReport.reportYearTotalEvolution(anyos,kilos,out_file_image)
+        anyos = []
+        kilos = []
     context = {
         'report_id'  : report_id,
         'report_img' : base_name,
@@ -144,8 +148,6 @@ def report(request,report_id):
 
 
 def index(request):
+    context = {}
     template = loader.get_template("controlfitos/base_template.html")
-    context = {'KilosPorAnyo' : Reports.KilosPorAnyo,
-               'KilosPorVaridad': Reports.KilosPorVaridad,
-               }
     return HttpResponse(template.render(context,request))

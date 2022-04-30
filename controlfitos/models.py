@@ -1,4 +1,5 @@
 import datetime
+import sys
 
 import django
 from django.db import models
@@ -41,17 +42,28 @@ class Agricultor(models.Model):
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
     cif = models.CharField(max_length=10,default='')
 
-    def getKilosPorAnyo(self):
+    @staticmethod
+    def getKilos(start_year=0, end_year=0, cultivo_id=0, variedad_id=0):
         query = 'SELECT' \
                 '    YEAR(T0.fecha) as "year" ' \
                 '    ,SUM(T1.cantidad) as kilos' \
                 '	 FROM   controlfitos_cabsalida T0 ' \
                 '	 JOIN controlfitos_salida T1 ON T1.cabSalida_id = T0.id' \
                 '    JOIN  controlfitos_variedad T2 ON T2.id = T1.variedad_id' \
-                '    GROUP BY YEAR(T0.fecha)'
+                '    WHERE 1=1 ' \
+
+        if start_year != 0:
+            query = query + f' AND YEAR(T0.fecha)>={start_year}'
+
+        if end_year != 0:
+            query = query + f' AND YEAR(T0.fecha)<={end_year}'
+
+        query = query +  '    GROUP BY YEAR(T0.fecha)'
         years = []
         kilos = []
         cursor = connection.cursor()
+
+        print(f'Query:\n{query}')
 
         cursor.execute(query)
         records = cursor.fetchall()
