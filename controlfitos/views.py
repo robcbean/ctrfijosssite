@@ -125,17 +125,19 @@ def reports(request):
 
 def report(request,report_id):
     file_image = ""
+    base_name = ""
     template = loader.get_template("controlfitos/report_template.html")
     if report_id == Reports.KilosPorAnyo:
         print(f'exportando fichero de salida')
         agricultor = Agricultor()
         anyos, kilos = agricultor.getKilosPorAnyo()
-        file_name = f'static/{report_id}.jpg'
+        base_name = f'{report_id}.jpg'
+        file_name = f'static/{base_name}'
         out_file_image = f'controlfitos/{file_name}'
         outputReport.reportYearTotalEvolution(anyos,kilos,out_file_image)
     context = {
         'report_id'  : report_id,
-        'report_img' : file_image,
+        'report_img' : base_name,
     }
     print(f'Report_id:{report_id}\t{file_image}')
     return HttpResponse(template.render(context,request))
@@ -143,5 +145,7 @@ def report(request,report_id):
 
 def index(request):
     template = loader.get_template("controlfitos/base_template.html")
-    context = {}
+    context = {'KilosPorAnyo' : Reports.KilosPorAnyo,
+               'KilosPorVaridad': Reports.KilosPorVaridad,
+               }
     return HttpResponse(template.render(context,request))
