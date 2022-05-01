@@ -5,6 +5,9 @@ urlpatterns = [
 
     path('', views.index, name='index'),
 
+    path('tratamientos/',views.tratamientos),
+    path('salidas/',views.salidas),
+
     path('agricultor/add',views.AgricultorCreateView.as_view(),name='agricultor-add'),
     path('agricultor/<int:pk>/',views.AgricultorUpdateView.as_view(),name='agricultor-update'),
 

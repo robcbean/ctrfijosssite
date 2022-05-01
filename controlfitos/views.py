@@ -126,6 +126,20 @@ def reports(request):
     return HttpResponse(template.render(context,request))
 
 
+def tratamientos(request):
+    template = loader.get_template("controlfitos/tratamientos_template.html")
+    context = {
+
+    }
+    return HttpResponse(template.render(context, request))
+
+def salidas(request):
+    template = loader.get_template("controlfitos/salidas_template.html")
+    context = {
+    }
+    return HttpResponse(template.render(context, request))
+
+
 def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
     file_image = ""
     base_name = ""
