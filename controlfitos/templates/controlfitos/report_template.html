@@ -2,16 +2,36 @@
 {% load static %}
 {% block content %}
 {% load report_load %}
-<form method="post">{% csrf_token %}
-    <label for="lbl_start_year">Año inicial</label>
-    {{ % create_array as my_array %}}
-    <select name="start_year">
-        <option value="0">_</option>
-        {% for year in my_array %}
-            <option value="{{ year }}">{{ year }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Ejecutar informe">
-</form>
-<img src="{% static  report_img  %}"/>
+<div>
+    <div>
+        <form method="post">{% csrf_token %}
+         <label for="lbl_start_year">Rango años</label>
+         {% get_years as year_array %}
+            <select name="start_year">
+                <option value="0">_</option>
+                {% for year in year_array %}
+                    {% if year != start_year %}
+                    <option value="{{ year }}">{{ year }}</option>
+                    {% else %}
+                    <option value="{{ year }}" selected>{{ year }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <select name="end_year">
+                <option value="0">_</option>
+                {% for year in year_array %}
+                    {% if year != end_year %}
+                    <option value="{{ year }}">{{ year }}</option>
+                    {% else %}
+                    <option value="{{ year }}" selected>{{ year }}</option>
+                    {% endif %}
+                {% endfor %}
+           </select>
+            <p><input type="submit" value="Ejecutar informe"></p>
+        </form>
+    </div>
+    <div>
+        <img src="{% static  report_img  %}"/>
+    </div>
+</div>
 {% endblock content %}

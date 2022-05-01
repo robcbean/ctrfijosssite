@@ -133,8 +133,11 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
 
     if request.method == 'POST':
         start_year = request.POST.get('start_year')
+        end_year = request.POST.get('end_year')
         if start_year != '':
             start_year = int(start_year)
+        if end_year != '':
+            end_year = int(end_year)
 
     if report_id == Reports.KilosPorAnyo:
         print(f'exportando fichero de salida')

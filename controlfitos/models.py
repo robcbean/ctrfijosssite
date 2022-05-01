@@ -85,7 +85,9 @@ class CabSalida(models.Model):
     def getMinYear():
         cursor = connection.cursor()
         query = 'SELECT IFNULL(MIN(YEAR(fecha)),0) FROM controlfitos_cabsalida'
-        ret = cursor.execute(query).fetch_one()[0]
+        cursor.execute(query)
+        result = cursor.fetchall()
+        ret = result[0][0]
         return  ret
 
 
