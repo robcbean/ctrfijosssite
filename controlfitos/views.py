@@ -1,11 +1,11 @@
-
+import datetime
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto
+from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto, Tratamiento
 from controlfitos.reporting.reports import  OutputReports
 
 
@@ -17,6 +17,14 @@ class Reports:
     KilosPorVaridad = "kilosporvariedad"
 
 class ProductoCreateView(CreateView):
+    model = Producto
+    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento']
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request,*args, **kwargs)
+
+
+class ProductoUpdateView(UpdateView):
     model = Producto
     fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento']
     @method_decorator(login_required)
@@ -128,8 +136,16 @@ def reports(request):
 
 def tratamientos(request):
     template = loader.get_template("controlfitos/tratamientos_template.html")
-    context = {
+    campanya = Agricultor.getAgricultor().campanya
+    if campanya == '':
+        raise Exception(f'Debe especificar la campaña en el agricultor')
 
+    campanya = int(campanya)
+    start_date = datetime.date(campanya,1,1)
+    end_date = datetime.date(campanya,12,31)
+    tratamientos = Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date)
+    context = {
+        'tratamientos' : tratamientos,
     }
     return HttpResponse(template.render(context, request))
 
@@ -154,7 +170,7 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
             end_year = int(end_year)
 
     if report_id == Reports.KilosPorAnyo:
-        print(f'exportando fichero de salida')
+        #print(f'exportando fichero de salida')
         anyos, kilos = Agricultor.getKilos(start_year=start_year, end_year=end_year, cultivo_id=cultivo, variedad_id=variedad)
         base_name = f'{report_id}.jpg'
         file_name = f'static/{base_name}'
@@ -168,7 +184,7 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
         'cultivo_id' : cultivo,
         'variedad_id' : variedad,
     }
-    print(f'Report_id:{report_id}\t{file_image}')
+    #print(f'Report_id:{report_id}\t{file_image}')
     return HttpResponse(template.render(context,request))
 
 

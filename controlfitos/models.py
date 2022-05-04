@@ -41,6 +41,11 @@ class Agricultor(models.Model):
     cif = models.CharField(max_length=10,default='')
 
     @staticmethod
+    def getAgricultor():
+        ret = Agricultor.objects.all()[0]
+        return ret
+
+    @staticmethod
     def getKilos(start_year=0, end_year=0, cultivo_id=0, variedad_id=0):
         query = 'SELECT' \
                 '    YEAR(T0.fecha) as "year" ' \
@@ -68,8 +73,7 @@ class Agricultor(models.Model):
         kilos = []
         cursor = connection.cursor()
 
-        print(f'Query:\n{query}')
-
+        #print(f'Query:\n{query}')
         cursor.execute(query)
         records = cursor.fetchall()
         for record in records:
@@ -103,7 +107,7 @@ class Producto(models.Model):
 class Salida(models.Model):
     cantidad = models.FloatField(default=0)
     precio = models.FloatField(default=0)
-    fecha = models.DateField(default=datetime.date.today())
+    fecha = models.DateField(default=django.utils.timezone.now)
     albaran = models.CharField(max_length=100,default='')
     factura = models.CharField(max_length=100,default='')
     cabSalida = models.ForeignKey(CabSalida, on_delete=models.CASCADE)
@@ -111,9 +115,12 @@ class Salida(models.Model):
     variedad = models.ForeignKey(Variedad, on_delete=models.CASCADE)
 
 class Tratamiento(models.Model):
-    fecha = django.utils.timezone.now
+    fecha = models.DateField(default=django.utils.timezone.now)
     precio = models.FloatField(default=0)
     producto = models.ForeignKey(Producto,on_delete=models.CASCADE)
+    def __str__(self):
+        ret = f'{str(self.fecha)} {str(self.precio)} {str(self.producto)}'
+        return ret
 
 class VariedadesTratamiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento,on_delete=models.CASCADE)
