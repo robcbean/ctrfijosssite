@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto, Tratamiento
+from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto, Tratamiento, VariedadesTratamiento
 from controlfitos.reporting.reports import  OutputReports
 
 
@@ -143,9 +143,13 @@ def tratamientos(request):
     campanya = int(campanya)
     start_date = datetime.date(campanya,1,1)
     end_date = datetime.date(campanya,12,31)
-    tratamientos = Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date)
+    tratamientos = Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date).order_by('-fecha')
+    variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date)
+
+
     context = {
         'tratamientos' : tratamientos,
+        'variedadestramiento' : variedadestramiento,
     }
     return HttpResponse(template.render(context, request))
 
