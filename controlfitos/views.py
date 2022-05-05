@@ -82,6 +82,15 @@ class VaridadCreateView(CreateView):
         return super().dispatch(request,*args, **kwargs)
 
 
+
+class VaridadUpdateView(UpdateView):
+    model = Variedad
+    fields = ['nombre','cultivo']
+    success_url = '/controlfitos/variedad/list'
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request,*args, **kwargs)
+
 class VaridadListView(ListView):
     model = Variedad
     fields = ['nombre','cultivo']
@@ -144,8 +153,7 @@ def tratamientos(request):
     start_date = datetime.date(campanya,1,1)
     end_date = datetime.date(campanya,12,31)
     tratamientos = Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date).order_by('-fecha')
-    variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date)
-
+    variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).filter(tratamiento__fecha__lte=end_date).order_by('-tratamiento__fecha')
 
     context = {
         'tratamientos' : tratamientos,

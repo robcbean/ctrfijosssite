@@ -3,9 +3,9 @@
 {% block content %}
 {% csrf_token %}
 <table border="1">
-<tr><td>Fecha</td><td>Producto</td></tr>
+<tr><td>Fecha</td><td>Producto</td><td>Plazo seguridad</td><td>Variedad</td></tr>
 {% for variedadetratamiento in variedadestramiento %}
-<tr><td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td><td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td></tr>
+<tr><td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td><td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td><td>{{variedadetratamiento.producto.plazoSeguridad}}</td><td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td></tr>
 {% endfor %}
 </table>
 {% endblock content %}

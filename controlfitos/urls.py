@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('variedad/list', views.VaridadListView.as_view(), name='variedad-list'),
     path('variedad/add', views.VaridadCreateView.as_view(), name='varieadd-add'),
+    path('variedad/<int:pk>', views.VaridadUpdateView.as_view(), name='varieadd-add'),
 
     path('tipotratamiento/list', views.TipoTratamientoList.as_view(), name='tipotratamiento-list'),
     path('tipotratamiento/add', views.TipoTratamientoCreateView.as_view(), name='tipotratamiento-add'),
