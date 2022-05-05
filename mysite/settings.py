@@ -68,6 +68,7 @@ TEMPLATES = [
             ],
             'libraries': {
                 'report_load': 'controlfitos.templatetags.report_load',
+                'tratamiento_load': 'controlfitos.templatetags.tratamiento_load',
             },
         },
     },

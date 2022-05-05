@@ -12,6 +12,12 @@ from controlfitos.reporting.reports import  OutputReports
 outputReport = OutputReports()
 
 
+class EditGrid:
+    AddIcon = "add-48.png"
+    DelIcon = "delete-48.png"
+    EditIcon = "edit-48.png"
+    SaveIcon = "save-48.png"
+
 class Reports:
     KilosPorAnyo = "kilosporanyo"
     KilosPorVaridad = "kilosporvariedad"
@@ -152,12 +158,14 @@ def tratamientos(request):
     campanya = int(campanya)
     start_date = datetime.date(campanya,1,1)
     end_date = datetime.date(campanya,12,31)
-    tratamientos = Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date).order_by('-fecha')
     variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).filter(tratamiento__fecha__lte=end_date).order_by('-tratamiento__fecha')
 
     context = {
-        'tratamientos' : tratamientos,
         'variedadestramiento' : variedadestramiento,
+        'editicon': EditGrid.EditIcon,
+        'addicon': EditGrid.AddIcon,
+        'delicon': EditGrid.DelIcon,
+        'saveicon': EditGrid.SaveIcon,
     }
     return HttpResponse(template.render(context, request))
 

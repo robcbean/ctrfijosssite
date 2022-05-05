@@ -1,11 +1,42 @@
 {% extends "controlfitos/base_template.html" %}
 {% load static %}
 {% block content %}
-{% csrf_token %}
+{% load tratamiento_load %}
+<form method="post">{% csrf_token %}
+ {% get_productos as productos %}
 <table border="1">
-<tr><td>Fecha</td><td>Producto</td><td>Plazo seguridad</td><td>Variedad</td></tr>
+<tr>
+    <td>Fecha</td>
+    <td>Producto</td>
+    <td>Plazo seguridad</td>
+    <td>Variedad</td>
+    <td>Editar</td>
+    <td>Eliminar</td>
+    <td>Guardar</td>
+</tr>
+<tr>
+    <td><input type="text"/></td>
+    <td>
+        <select name="producto">
+             <option value = "{{producto.id}}"></option>
+        </select>
+    </td>
+    <td>Plazo seguridad</td>
+    <td>Variedad</td>
+    <td></td>
+    <td></td>
+    <td><img src="{% static saveicon %}"/></td>
+</tr>
 {% for variedadetratamiento in variedadestramiento %}
-<tr><td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td><td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td><td>{{variedadetratamiento.producto.plazoSeguridad}}</td><td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td></tr>
+<tr>
+    <td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td>
+    <td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td>
+    <td>{{variedadetratamiento.producto.plazoSeguridad}}</td><td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td>
+    <td><img src="{% static editicon %}"/></td>
+    <td><img src="{% static delicon %}"/></td>
+    <td><img src="{% static saveicon %}"/></td>
+</tr>
 {% endfor %}
 </table>
+</form>
 {% endblock content %}

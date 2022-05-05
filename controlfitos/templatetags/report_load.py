@@ -1,13 +1,14 @@
 from controlfitos.models import CabSalida
 from datetime import datetime
 from django.template.base import TemplateSyntaxError
-
 from django import template
+
 register = template.Library()
 
 @register.tag(name='get_years')
 def get_years(parser, token):
     class ArrayCreator(template.Node):
+
         def __init__(self, var_name):
             self.var_name = var_name  # output variable
 
@@ -16,7 +17,6 @@ def get_years(parser, token):
             for i in range(CabSalida.getMinYear(),datetime.now().year):
                 anyos.append(i)
             context[self.var_name] = anyos
-            print(anyos)
             return ''
 
     args = token.contents.split()  # "create_array", "as", VAR_NAME
