@@ -18,7 +18,9 @@
     <td><input type="text"/></td>
     <td>
         <select name="producto">
-             <option value = "{{producto.id}}"></option>
+            {% for producto in productos %}
+             <option value = "{{ producto.id}}">{{ producto.nombre }}</option>
+            {% endfor %}
         </select>
     </td>
     <td>Plazo seguridad</td>

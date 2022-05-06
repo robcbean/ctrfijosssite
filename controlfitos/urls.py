@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('cultivo/list', views.CultivoListView.as_view(), name='cultivos-list'),
     path('cultivo/add', views.CultivoCreateView.as_view(), name='cultivos-add'),
+    path('cultivo/<int:pk>', views.CultivoUpdateView.as_view(), name='cultivos-update'),
 
 
     path('variedad/list', views.VaridadListView.as_view(), name='variedad-list'),

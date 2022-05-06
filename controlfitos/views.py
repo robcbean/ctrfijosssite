@@ -24,7 +24,7 @@ class Reports:
 
 class ProductoCreateView(CreateView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento']
+    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -32,7 +32,7 @@ class ProductoCreateView(CreateView):
 
 class ProductoUpdateView(UpdateView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento']
+    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -40,7 +40,7 @@ class ProductoUpdateView(UpdateView):
 
 class ProductoList(ListView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento']
+    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -61,6 +61,17 @@ class TipoTratamientoList(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
+
+
+class CultivoUpdateView(UpdateView):
+    model = Cultivo
+    fields = ['nombre']
+    success_url = '/controlfitos/cultivo/list'
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request,*args, **kwargs)
+
+
 
 class CultivoCreateView(CreateView):
     model = Cultivo

@@ -103,6 +103,7 @@ class Producto(models.Model):
     precio = models.FloatField(default=0)
     plazoSeguridad = models.IntegerField(default=0)
     tipoTratamiento = models.ForeignKey(TipoTratamiento,on_delete=models.CASCADE)
+    noDisponible = models.BooleanField(default=False)
 
 class Salida(models.Model):
     cantidad = models.FloatField(default=0)
