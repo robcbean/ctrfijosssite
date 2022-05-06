@@ -15,10 +15,12 @@ class ConceptoGasto(models.Model):
 class Cultivo(models.Model):
     nombre = models.CharField(max_length=100,default='')
 
+
 class Variedad(models.Model):
     nombre = models.CharField(max_length=100,default='')
     finalizada = models.IntegerField(default=0)
-    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
+    cultivo = models.OneToOneField(Cultivo,on_delete=models.DO_NOTHING)
+
 
 
 
@@ -26,11 +28,11 @@ class TipoTratamiento(models.Model):
     nombre = models.CharField(max_length=100,default='')
 
 
-class Gasto(models.Model):
-    fecha = models.DateField(default=django.utils.timezone.now)
-    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
-    variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
-    concepto = models.ForeignKey(ConceptoGasto,on_delete=models.CASCADE)
+#class Gasto(models.Model):
+#    fecha = models.DateField(default=django.utils.timezone.now)
+#    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
+#    variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
+#    concepto = models.ForeignKey(ConceptoGasto,on_delete=models.CASCADE)
 
 
 class Agricultor(models.Model):

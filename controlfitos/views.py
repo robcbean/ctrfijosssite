@@ -1,4 +1,6 @@
 import datetime
+
+from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
@@ -111,11 +113,11 @@ class VaridadCreateView(CreateView):
         return super().dispatch(request,*args, **kwargs)
 
 
-
 class VaridadUpdateView(UpdateView):
     model = Variedad
     fields = '__all__'
     success_url = '/controlfitos/variedad/list'
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
