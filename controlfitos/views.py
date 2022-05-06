@@ -2,10 +2,11 @@ import datetime
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from controlfitos.models import Agricultor, Cliente, Cultivo, Variedad, TipoTratamiento, Producto, Tratamiento, VariedadesTratamiento
+from controlfitos.models import Agricultor, Cliente, Cultivo, TipoTratamiento, Producto,  VariedadesTratamiento, Variedad
 from controlfitos.reporting.reports import  OutputReports
 
 
@@ -44,6 +45,17 @@ class ProductoList(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
+
+
+
+class TipoTratamientoUpdateView(UpdateView):
+    model = TipoTratamiento
+    fields = ['nombre']
+    success_url = '/controlfitos/tipotratamiento/list'
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request,*args, **kwargs)
+
 
 
 class TipoTratamientoCreateView(CreateView):
@@ -102,7 +114,7 @@ class VaridadCreateView(CreateView):
 
 class VaridadUpdateView(UpdateView):
     model = Variedad
-    fields = ['nombre','cultivo']
+    fields = '__all__'
     success_url = '/controlfitos/variedad/list'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

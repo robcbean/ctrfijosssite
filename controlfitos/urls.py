@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('tipotratamiento/list', views.TipoTratamientoList.as_view(), name='tipotratamiento-list'),
     path('tipotratamiento/add', views.TipoTratamientoCreateView.as_view(), name='tipotratamiento-add'),
+    path('tipotratamiento/<int:pk>', views.TipoTratamientoUpdateView.as_view(), name='tipotratamiento-add'),
 
     path('producto/list', views.ProductoList.as_view(), name='producto-list'),
     path('producto/add', views.ProductoCreateView.as_view(), name='producto-add'),

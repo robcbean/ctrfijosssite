@@ -5,7 +5,7 @@
     <ul>
       {% for variedad in variedad_list %}
       <li>
-        <a href="{{ variedad.get_absolute_url }}">{{ variedad.nombre }}</a>
+        <a href="{{ variedad.id }}">{{ variedad.nombre }}</a>
       </li>
       {% endfor %}
     </ul>
