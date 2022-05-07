@@ -115,12 +115,34 @@ class Producto(models.Model):
 class Salida(models.Model):
     cantidad = models.FloatField(default=0)
     precio = models.FloatField(default=0)
-    fecha = models.DateField(default=django.utils.timezone.now)
     albaran = models.CharField(max_length=100,default='')
     factura = models.CharField(max_length=100,default='')
     cabSalida = models.ForeignKey(CabSalida, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad, on_delete=models.CASCADE)
+
+    @staticmethod
+    def delSalida(_salida_id : int):
+
+        salida = Salida.objects.get(pk=_salida_id)
+        cabSalida = salida.cabSalida
+        cabSalida.delete()
+        salida.delete()
+
+    def addSalida(_cliente_id: str, _date: datetime.date, _albaran: str, _variedad_id: int, _cantidad: float ):
+
+        cabSalida = CabSalida()
+        cabSalida.fecha = _date
+        cabSalida.save()
+
+        salida = Salida()
+        salida.albaran = _albaran
+        salida.variedad  = Variedad.objects.get(pk=_variedad_id)
+        salida.cabSalida = cabSalida
+        salida.cantidad = _cantidad
+        salida.cliente =  Cliente.objects.get(pk=_cliente_id)
+        salida.save()
+
 
 class Tratamiento(models.Model):
     fecha = models.DateField(default=django.utils.timezone.now)

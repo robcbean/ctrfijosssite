@@ -20,7 +20,11 @@
             <td>
                 <select name="cliente">
                     {% for cliente in clientes %}
-                    <option value = "{{cliente.id}}}">{{cliente.nombre}}</option>
+                    {% if client_id == cliente.id %}
+                    <option value = "{{cliente.id}}" selected>{{cliente.nombre}}</option>
+                    {% else %}
+                    <option value = "{{cliente.id}}">{{cliente.nombre}}</option>
+                    {% endif %}
                     {% endfor %}
                 </select>
             </td>
@@ -29,13 +33,23 @@
             <td>
                 <select name="variedad">
                 {% for variedad in variedades %}
-                    <option value="{{variedad.id}}}">{{variedad.nombre}}</option>
+                    <option value="{{variedad.id}}">{{variedad.nombre}}</option>
                 {% endfor %}
                 </select>
             </td>
-            <td>Cantidad</td>
+            <td><input type="number" name="cantidad"></td>
             <td><button type="submit"><img src="{% static saveicon %}"/></button></td>
         </tr>
+        {%for salida in salidas %}
+        <tr>
+            <td><a href="/controlfitos/cliente/{{salida.cliente.id}}">{{salida.cliente.nombre}}</a></td>
+            <td>{{salida.cabSalida.fecha|date:"d/m/y" }}</td>
+            <td>{{salida.albaran}}</td>
+            <td><a href="/controlfitos/variedad/{{salida.variedad.id}}">{{salida.variedad.nombre}}</a></td>
+            <td>{{salida.cantidad}}</td>
+            <td><a href="/controlfitos/salidas/del/{{salida.id}}"><img src="{% static delicon %}"/></a></td>
+        </tr>
+        {%endfor %}
     </table>
 </form>
 {% endblock content %}

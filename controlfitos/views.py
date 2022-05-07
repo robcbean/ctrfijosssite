@@ -194,6 +194,7 @@ def tratamientos(request,variedad_tratamiento_id=0,tratamiento_id=0):
     else:
         if request.method == 'POST':
             VariedadesTratamiento.addVariedadTratamiento(request.POST.get("fecha"),request.POST.get("producto"),request.POST.get("variedad"))
+            return redirect('/controlfitos/tratamientos/')
         template = loader.get_template("controlfitos/tratamientos_template.html")
         campanya = Agricultor.getAgricultor().campanya
         if campanya == '':
@@ -213,27 +214,35 @@ def tratamientos(request,variedad_tratamiento_id=0,tratamiento_id=0):
         }
         return HttpResponse(template.render(context, request))
 
-def salidas(request):
+def salidas(request,salida_id=0):
     template = loader.get_template("controlfitos/salidas_template.html")
+    if salida_id != 0:
+        Salida.delSalida(salida_id)
+        return redirect('/controlfitos/salidas/')
+    else:
+        if request.method == 'POST':
+            Salida.addSalida(request.POST.get('cliente'),request.POST.get('fecha'),request.POST.get('albaran'),request.POST.get('variedad'),request.POST.get('cantidad'))
+            return redirect('/controlfitos/salidas/')
+        campanya = Agricultor.getAgricultor().campanya
+        client_id = Agricultor.getAgricultor().cliente.id
+        if campanya == '':
+            raise Exception(f'Debe especificar la campaña en el agricultor')
 
-    campanya = Agricultor.getAgricultor().campanya
-    if campanya == '':
-        raise Exception(f'Debe especificar la campaña en el agricultor')
+        campanya = int(campanya)
+        start_date = datetime.date(campanya, 1, 1)
+        end_date = datetime.date(campanya, 12, 31)
+        salidas = Salida.objects.filter(cabSalida__fecha__gte=start_date).filter(
+            cabSalida__fecha__lte=end_date).order_by('-cabSalida__fecha')
 
-    campanya = int(campanya)
-    start_date = datetime.date(campanya, 1, 1)
-    end_date = datetime.date(campanya, 12, 31)
-    salidas = Salida.objects.filter(cabSalida__fecha__gte=start_date).filter(
-        cabSalida__fecha__lte=end_date).order_by('-cabSalida__fecha')
-
-    context = {
-        'salidas' : salidas,
-        'editicon': EditGrid.EditIcon,
-        'addicon': EditGrid.AddIcon,
-        'delicon': EditGrid.DelIcon,
-        'saveicon': EditGrid.SaveIcon,
-    }
-    return HttpResponse(template.render(context, request))
+        context = {
+            'salidas' : salidas,
+            'cliente_id': client_id,
+            'editicon': EditGrid.EditIcon,
+            'addicon': EditGrid.AddIcon,
+            'delicon': EditGrid.DelIcon,
+            'saveicon': EditGrid.SaveIcon,
+        }
+        return HttpResponse(template.render(context, request))
 
 
 def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
