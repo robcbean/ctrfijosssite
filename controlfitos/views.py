@@ -1,5 +1,6 @@
 import datetime
 from django.template import loader
+from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
@@ -152,6 +153,7 @@ class AgricultorCreateView(CreateView):
 class AgricultorUpdateView(UpdateView):
     model = Agricultor
     fields = ['nombre','cif','domicilio','cliente','campanya']
+    success_url = "/controlfitos/"
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -183,25 +185,32 @@ def reports(request):
     return HttpResponse(template.render(context,request))
 
 
-def tratamientos(request):
-    template = loader.get_template("controlfitos/tratamientos_template.html")
-    campanya = Agricultor.getAgricultor().campanya
-    if campanya == '':
-        raise Exception(f'Debe especificar la campaña en el agricultor')
+def tratamientos(request,variedad_tratamiento_id=0,tratamiento_id=0):
 
-    campanya = int(campanya)
-    start_date = datetime.date(campanya,1,1)
-    end_date = datetime.date(campanya,12,31)
-    variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).filter(tratamiento__fecha__lte=end_date).order_by('-tratamiento__fecha')
+    if variedad_tratamiento_id !=0 and tratamiento_id != 0:
+        VariedadesTratamiento.delVariedadTramiento(_variedad_tratamiento_id=variedad_tratamiento_id,_tratamiento_id=tratamiento_id)
+        return redirect('/controlfitos/tratamientos/')
+    else:
+        if request.method == 'POST':
+            VariedadesTratamiento.addVariedadTratamiento(request.POST.get("fecha"),request.POST.get("producto"),request.POST.get("variedad"))
+        template = loader.get_template("controlfitos/tratamientos_template.html")
+        campanya = Agricultor.getAgricultor().campanya
+        if campanya == '':
+            raise Exception(f'Debe especificar la campaña en el agricultor')
 
-    context = {
-        'variedadestramiento' : variedadestramiento,
-        'editicon': EditGrid.EditIcon,
-        'addicon': EditGrid.AddIcon,
-        'delicon': EditGrid.DelIcon,
-        'saveicon': EditGrid.SaveIcon,
-    }
-    return HttpResponse(template.render(context, request))
+        campanya = int(campanya)
+        start_date = datetime.date(campanya,1,1)
+        end_date = datetime.date(campanya,12,31)
+        variedadestramiento = VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).filter(tratamiento__fecha__lte=end_date).order_by('-tratamiento__fecha')
+
+        context = {
+            'variedadestramiento' : variedadestramiento,
+            'editicon': EditGrid.EditIcon,
+            'addicon': EditGrid.AddIcon,
+            'delicon': EditGrid.DelIcon,
+            'saveicon': EditGrid.SaveIcon,
+        }
+        return HttpResponse(template.render(context, request))
 
 def salidas(request):
     template = loader.get_template("controlfitos/salidas_template.html")

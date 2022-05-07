@@ -135,6 +135,38 @@ class VariedadesTratamiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento,on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
 
+    @staticmethod
+    def delVariedadTramiento(_variedad_tratamiento_id: int, _tratamiento_id: int):
+        varidadtratamiento = VariedadesTratamiento.objects.get(pk=_variedad_tratamiento_id)
+        varidadtratamiento.delete()
+        results = VariedadesTratamiento.objects.filter(tratamiento__id=_tratamiento_id)
+        if results.count() == 0:
+            tratamiento = Tratamiento.objects.get(pk=_tratamiento_id)
+            tratamiento.delete()
+
+    @staticmethod
+    def addVariedadTratamiento(_date: datetime.date, _producto_id: int, _variedad_id : int):
+        ret = True
+        if _producto_id == None or _variedad_id == None or _date == "":
+            ret = False
+
+        results = Tratamiento.objects.filter(fecha=_date,producto_id=_producto_id)
+        if results.count() == 0:
+            tratamiento = Tratamiento()
+            tratamiento.fecha = _date
+            tratamiento.producto = Producto.objects.get(pk=_producto_id)
+            tratamiento.save()
+        else:
+            tratamiento = results[0]
+
+        results = VariedadesTratamiento.objects.filter(tratamiento_id=tratamiento.id,variedad_id=_variedad_id)
+        if results.count() == 0:
+            varidadestratamiento = VariedadesTratamiento()
+            varidadestratamiento.variedad = Variedad.objects.get(pk=_variedad_id)
+            varidadestratamiento.tratamiento = tratamiento
+            varidadestratamiento.save()
+
+
 
 
 

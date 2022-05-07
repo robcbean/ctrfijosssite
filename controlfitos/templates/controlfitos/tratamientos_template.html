@@ -4,39 +4,38 @@
 {% load tratamiento_load %}
 <form method="post">{% csrf_token %}
  {% get_productos as productos %}
+ {% get_variedades as variedades %}
 <table border="1">
-<tr>
+<thead>
     <td>Fecha</td>
     <td>Producto</td>
-    <td>Plazo seguridad</td>
     <td>Variedad</td>
-    <td>Editar</td>
-    <td>Eliminar</td>
-    <td>Guardar</td>
-</tr>
+    <td>Guardar/Eliminar</td>
+</thead>
 <tr>
-    <td><input type="text"/></td>
+    <td><input type="date" name="fecha"/></td>
     <td>
         <select name="producto">
             {% for producto in productos %}
-             <option value = "{{ producto.id}}">{{ producto.nombre }}</option>
+             <option value = "{{ producto.id}}">{{ producto.nombre |upper }}</option>
             {% endfor %}
         </select>
     </td>
-    <td>Plazo seguridad</td>
-    <td>Variedad</td>
-    <td></td>
-    <td></td>
-    <td><img src="{% static saveicon %}"/></td>
+    <td>
+        <select name="variedad" id="variedad">
+            {% for variedad in variedades %}
+                <option value = "{{ variedad.id }}">{{ variedad.nombre |upper }}</option>
+            {% endfor %}
+        </select>
+    </td>
+    <td><button type="submit"><img src="{% static saveicon %}"/></td></button>
 </tr>
 {% for variedadetratamiento in variedadestramiento %}
 <tr>
     <td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td>
     <td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td>
-    <td>{{variedadetratamiento.producto.plazoSeguridad}}</td><td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td>
-    <td><img src="{% static editicon %}"/></td>
-    <td><img src="{% static delicon %}"/></td>
-    <td><img src="{% static saveicon %}"/></td>
+    <td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td>
+    <td><a href="/controlfitos/tratamientos/del/{{variedadetratamiento.id}}/{{variedadetratamiento.tratamiento.id}}"><img src="{% static delicon %}"/></a></td>
 </tr>
 {% endfor %}
 </table>

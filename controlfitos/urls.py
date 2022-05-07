@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('tratamientos/',views.tratamientos),
+    path('tratamientos/del/<int:variedad_tratamiento_id>/<int:tratamiento_id>/', views.tratamientos),
     path('salidas/',views.salidas),
 
     path('agricultor/add',views.AgricultorCreateView.as_view(),name='agricultor-add'),
