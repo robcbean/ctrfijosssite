@@ -1,3 +1,41 @@
 {% extends "controlfitos/base_template.html" %}
+{% load static %}
 {% block content %}
+{% load salida_load %}
+
+{% get_clientes as clientes %}
+{% get_variedades as variedades %}
+
+<form method="post">{% csrf_token %}
+    <table border="1">
+        <thead>
+            <td>Cliente</td>
+            <td>Fecha</td>
+            <td>Albarán</td>
+            <td>Variedad</td>
+            <td>Cantidad</td>
+            <td>Guardar/Eliminar</td>
+        </thead>
+        <tr>
+            <td>
+                <select name="cliente">
+                    {% for cliente in clientes %}
+                    <option value = "{{cliente.id}}}">{{cliente.nombre}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td><input type="date" name="fecha"></td>
+            <td><input type="text" name="albaran"></td>
+            <td>
+                <select name="variedad">
+                {% for variedad in variedades %}
+                    <option value="{{variedad.id}}}">{{variedad.nombre}}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td>Cantidad</td>
+            <td><button type="submit"><img src="{% static saveicon %}"/></button></td>
+        </tr>
+    </table>
+</form>
 {% endblock content %}

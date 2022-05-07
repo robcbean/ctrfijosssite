@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from controlfitos.models import Agricultor, Cliente, Cultivo, TipoTratamiento, Producto,  VariedadesTratamiento, Variedad
+from controlfitos.models import Agricultor, Cliente, Cultivo, TipoTratamiento, Producto,  VariedadesTratamiento, Variedad, Salida
 from controlfitos.reporting.reports import  OutputReports
 
 
@@ -19,13 +19,14 @@ class EditGrid:
     EditIcon = "edit-48.png"
     SaveIcon = "save-48.png"
 
+
 class Reports:
     KilosPorAnyo = "kilosporanyo"
     KilosPorVaridad = "kilosporvariedad"
 
 class ProductoCreateView(CreateView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
+    fields = '__all__'
     success_url = '/controlfitos/producto/list'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -34,7 +35,7 @@ class ProductoCreateView(CreateView):
 
 class ProductoUpdateView(UpdateView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
+    fields = '__all__'
     success_url = '/controlfitos/producto/list'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -43,7 +44,7 @@ class ProductoUpdateView(UpdateView):
 
 class ProductoList(ListView):
     model = Producto
-    fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
+    fields = '__all__'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -214,7 +215,23 @@ def tratamientos(request,variedad_tratamiento_id=0,tratamiento_id=0):
 
 def salidas(request):
     template = loader.get_template("controlfitos/salidas_template.html")
+
+    campanya = Agricultor.getAgricultor().campanya
+    if campanya == '':
+        raise Exception(f'Debe especificar la campaña en el agricultor')
+
+    campanya = int(campanya)
+    start_date = datetime.date(campanya, 1, 1)
+    end_date = datetime.date(campanya, 12, 31)
+    salidas = Salida.objects.filter(cabSalida__fecha__gte=start_date).filter(
+        cabSalida__fecha__lte=end_date).order_by('-cabSalida__fecha')
+
     context = {
+        'salidas' : salidas,
+        'editicon': EditGrid.EditIcon,
+        'addicon': EditGrid.AddIcon,
+        'delicon': EditGrid.DelIcon,
+        'saveicon': EditGrid.SaveIcon,
     }
     return HttpResponse(template.render(context, request))
 

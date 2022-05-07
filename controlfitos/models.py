@@ -105,7 +105,6 @@ class Producto(models.Model):
     nombre = models.CharField(max_length=100,default='')
     nombreComercial = models.CharField(max_length=100,default='')
     noregistro = models.CharField(max_length=100,default='')
-    precio = models.FloatField(default=0)
     plazoSeguridad = models.IntegerField(default=0)
     tipoTratamiento = models.ForeignKey(TipoTratamiento,on_delete=models.CASCADE)
     noDisponible = models.BooleanField(default=False)
