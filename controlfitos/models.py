@@ -129,19 +129,20 @@ class Salida(models.Model):
         cabSalida.delete()
         salida.delete()
 
-    def addSalida(_cliente_id: str, _date: datetime.date, _albaran: str, _variedad_id: int, _cantidad: float ):
+    def addSalida(_cliente_id: int, _date: datetime.date, _albaran: str, _variedad_id: int, _cantidad: float ):
 
-        cabSalida = CabSalida()
-        cabSalida.fecha = _date
-        cabSalida.save()
+        if _cliente_id != 0 and _date != "" and _albaran != "" and _variedad_id !=0 and _cantidad !=0:
+            cabSalida = CabSalida()
+            cabSalida.fecha = _date
+            cabSalida.save()
 
-        salida = Salida()
-        salida.albaran = _albaran
-        salida.variedad  = Variedad.objects.get(pk=_variedad_id)
-        salida.cabSalida = cabSalida
-        salida.cantidad = _cantidad
-        salida.cliente =  Cliente.objects.get(pk=_cliente_id)
-        salida.save()
+            salida = Salida()
+            salida.albaran = _albaran
+            salida.variedad  = Variedad.objects.get(pk=_variedad_id)
+            salida.cabSalida = cabSalida
+            salida.cantidad = _cantidad
+            salida.cliente =  Cliente.objects.get(pk=_cliente_id)
+            salida.save()
 
 
 class Tratamiento(models.Model):

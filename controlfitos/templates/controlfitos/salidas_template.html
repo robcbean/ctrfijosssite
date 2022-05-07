@@ -20,11 +20,11 @@
             <td>
                 <select name="cliente">
                     {% for cliente in clientes %}
-                    {% if client_id == cliente.id %}
-                    <option value = "{{cliente.id}}" selected>{{cliente.nombre}}</option>
-                    {% else %}
-                    <option value = "{{cliente.id}}">{{cliente.nombre}}</option>
-                    {% endif %}
+                        {% if client_id != cliente.id %}
+                        <option value = "{{cliente.id}}" selected>{{cliente.nombre}}</option>
+                        {% else %}
+                        <option value = "{{cliente.id}}">{{cliente.nombre}}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </td>

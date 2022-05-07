@@ -225,6 +225,7 @@ def salidas(request,salida_id=0):
             return redirect('/controlfitos/salidas/')
         campanya = Agricultor.getAgricultor().campanya
         client_id = Agricultor.getAgricultor().cliente.id
+        print(client_id)
         if campanya == '':
             raise Exception(f'Debe especificar la campaña en el agricultor')
 
