@@ -1,10 +1,7 @@
 import datetime
-
-from django.shortcuts import get_object_or_404
 from django.template import loader
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView,UpdateView
-from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -28,6 +25,7 @@ class Reports:
 class ProductoCreateView(CreateView):
     model = Producto
     fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
+    success_url = '/controlfitos/producto/list'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -36,6 +34,7 @@ class ProductoCreateView(CreateView):
 class ProductoUpdateView(UpdateView):
     model = Producto
     fields = ['nombre','nombreComercial','noregistro','precio','plazoSeguridad','tipoTratamiento','noDisponible']
+    success_url = '/controlfitos/producto/list'
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -47,7 +46,6 @@ class ProductoList(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
-
 
 
 class TipoTratamientoUpdateView(UpdateView):
@@ -103,11 +101,21 @@ class CultivoListView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
 
-
 class VaridadCreateView(CreateView):
     model = Variedad
-    fields = ['nombre','cultivo']
+    #fields = ['nombre', 'cultivo',]
+    fields = '__all__'
     success_url = '/controlfitos/variedad/list'
+    def __init__(self,*args,**kwargs):
+
+        super(VaridadCreateView, self).__init__(*args,**kwargs)
+        #self.fields['cultivo'].label_from_instance = self.label_from_instance
+
+    @staticmethod
+    def label_from_instance(obj):
+        print(obj.nombre)
+        return obj.nombre
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -125,10 +133,11 @@ class VaridadUpdateView(UpdateView):
 class VaridadListView(ListView):
     model = Variedad
     fields = ['nombre','cultivo']
+
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
-
 
 
 class AgricultorCreateView(CreateView):

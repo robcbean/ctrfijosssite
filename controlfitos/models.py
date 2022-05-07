@@ -8,31 +8,31 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=100,default='')
     domicilio = models.CharField(max_length=250,default='')
     cif = models.CharField(max_length=10,default='')
+    def __str__(self):
+        return self.nombre
+
 
 class ConceptoGasto(models.Model):
     comentario = models.CharField(max_length=150,default=' ')
 
 class Cultivo(models.Model):
     nombre = models.CharField(max_length=100,default='')
+    def __str__(self):
+        return self.nombre
 
 
 class Variedad(models.Model):
     nombre = models.CharField(max_length=100,default='')
     finalizada = models.IntegerField(default=0)
-    cultivo = models.OneToOneField(Cultivo,on_delete=models.DO_NOTHING)
-
-
+    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.nombre
 
 
 class TipoTratamiento(models.Model):
     nombre = models.CharField(max_length=100,default='')
-
-
-#class Gasto(models.Model):
-#    fecha = models.DateField(default=django.utils.timezone.now)
-#    cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
-#    variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
-#    concepto = models.ForeignKey(ConceptoGasto,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.nombre
 
 
 class Agricultor(models.Model):
@@ -41,6 +41,9 @@ class Agricultor(models.Model):
     domicilio = models.CharField(max_length=250,default='')
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
     cif = models.CharField(max_length=10,default='')
+
+    def __str__(self):
+        return self.nombre
 
     @staticmethod
     def getAgricultor():
@@ -107,6 +110,9 @@ class Producto(models.Model):
     tipoTratamiento = models.ForeignKey(TipoTratamiento,on_delete=models.CASCADE)
     noDisponible = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.nombre
+
 class Salida(models.Model):
     cantidad = models.FloatField(default=0)
     precio = models.FloatField(default=0)
@@ -128,7 +134,6 @@ class Tratamiento(models.Model):
 class VariedadesTratamiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento,on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
-    cantidad = models.FloatField(default=0)
 
 
 
