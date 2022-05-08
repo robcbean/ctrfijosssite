@@ -38,7 +38,7 @@
                 </select>
             </td>
             <td><input type="number" name="cantidad"></td>
-            <td><button type="submit"><img src="{% static saveicon %}"/></button></td>
+            <td><button type="submit"><img src="{% static saveicon %}" width="50%" height="50%"/></button></td>
         </tr>
         {%for salida in salidas %}
         <tr>
@@ -47,7 +47,7 @@
             <td>{{salida.albaran}}</td>
             <td><a href="/controlfitos/variedad/{{salida.variedad.id}}">{{salida.variedad.nombre}}</a></td>
             <td>{{salida.cantidad}}</td>
-            <td><a href="/controlfitos/salidas/del/{{salida.id}}"><img src="{% static delicon %}"/></a></td>
+            <td><a href="/controlfitos/salidas/del/{{salida.id}}"><img src="{% static delicon %}" width="50%" height="50$"/></a></td>
         </tr>
         {%endfor %}
     </table>

@@ -28,14 +28,14 @@
             {% endfor %}
         </select>
     </td>
-    <td><button type="submit"><img src="{% static saveicon %}"/></button></td>
+    <td><button type="submit"><img src="{% static saveicon %}" width="50%" height="50%"/></button></td>
 </tr>
 {% for variedadetratamiento in variedadestramiento %}
 <tr>
     <td>{{ variedadetratamiento.tratamiento.fecha|date:"d/m/y" }}</td>
     <td><a href="/controlfitos/producto/{{variedadetratamiento.tratamiento.producto.id}}">{{variedadetratamiento.tratamiento.producto.nombre|upper}}</a></td>
     <td><a href="/controlfitos/variedad/{{variedadetratamiento.variedad.id}}">{{variedadetratamiento.variedad.nombre}}</a></td>
-    <td><a href="/controlfitos/tratamientos/del/{{variedadetratamiento.id}}/{{variedadetratamiento.tratamiento.id}}"><img src="{% static delicon %}"/></a></td>
+    <td><a href="/controlfitos/tratamientos/del/{{variedadetratamiento.id}}/{{variedadetratamiento.tratamiento.id}}"><img src="{% static delicon %}" width="50%" height="50%"/></a></td>
 </tr>
 {% endfor %}
 </table>

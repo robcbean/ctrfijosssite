@@ -37,6 +37,8 @@ class ProductoUpdateView(UpdateView):
     model = Producto
     fields = '__all__'
     success_url = '/controlfitos/producto/list'
+
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
@@ -45,9 +47,36 @@ class ProductoUpdateView(UpdateView):
 class ProductoList(ListView):
     model = Producto
     fields = '__all__'
+    ordering = ['name']
+
+    def get_initial(self):
+        return {'check_todos': 'off'}
+
+
+    def get_context_data(self,  **kwargs):
+        todos = self.request.GET.get('todos')
+        context = super(ProductoList, self).get_context_data(**kwargs)
+        qs = kwargs.pop('object_list', self.object_list)
+        if todos == None or todos == "off":
+            context['check_todos'] = ''
+        else:
+            context['check_todos'] = 'checked=true'
+        return context
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request,*args, **kwargs)
+
+
+
+    def get_queryset(self, **kwargs):
+        todos = self.request.GET.get('todos')
+        print(f'Todos:{todos}\n')
+        if todos == None or todos == "":
+            productos = Producto.objects.filter(noDisponible=False)
+        else:
+            productos = Producto.objects.all()
+        return productos
 
 
 class TipoTratamientoUpdateView(UpdateView):
