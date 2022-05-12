@@ -1,20 +1,35 @@
 {% extends "controlfitos/base_template.html" %}
+{% load static %}
 {% block content %}
-    <form method="GET"> {% csrf_token %}
-    <p><a href="/controlfitos/producto/add">Añadir producto</a></p>
-    <h1>Lista de productos</h1>
-    <input type="checkbox" name="todos" {{check_todos}}}>Todos</input>
-    <input type="submit" value="Filtrar">
-    {% if producto_list %}
-    <ul>
-      {% for producto in producto_list %}
-      <li>
-        <a href="{{ producto.id }}">{{ producto.nombre | upper}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-      <p>No hay productos.</p>
-    {% endif %}
-    </form>
-{% endblock %}
+<h1>Registro de tratamientos en campo</h1>
+
+<table border="1">
+    <thead>
+        <td><b>Agricultor</b></td>
+        <td><b>CIF</b></td>
+        <td><b>Domicilio</b></td>
+    </thead>
+    <tr>
+        <td>{{agricultor.nombre}}</td>
+        <td>{{agricultor.cif}}</td>
+        <td>{{agricultor.domicilio}}</td>
+    </tr>
+</table>
+
+</p>
+
+
+<table border="1">
+    <thead>
+        <td><b>Fecha</b></td>
+        <td><b>Producto</b></td>
+        <td><b>Nº de registro</b></td>
+        <td><b>Variedad</b></td>
+        <td><b>Tratamiento</b></td>
+    </thead>
+    {% for tratamiento in tratamientos %}
+        {{tratamiento.id}}
+    {% endfor %}
+</table>
+
+{% endblock content %}
