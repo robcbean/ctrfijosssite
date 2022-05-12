@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView,UpdateView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from controlfitos.models import Agricultor, Cliente, Cultivo, TipoTratamiento, Producto,  VariedadesTratamiento, Variedad, Salida
+from controlfitos.models import Agricultor, Cliente, Cultivo, TipoTratamiento, Producto,  VariedadesTratamiento, Variedad, Salida, Tratamiento
 from controlfitos.reporting.reports import  OutputReports
 
 
@@ -303,9 +303,18 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
         'cultivo_id' : cultivo,
         'variedad_id' : variedad,
     }
-    #print(f'Report_id:{report_id}\t{file_image}')
     return HttpResponse(template.render(context,request))
 
+def registro_tratatamientos(request):
+
+    template = loader.get_template('controlfitos/registrotratamiento_template.html')
+    start_date, end_date = Agricultor.getAgricultor().getCampanyDates()
+    tratamientos = Tratamiento.objects.filter(fecha_gt=start_date,fecha_lt=end_date)
+    context = { 'tratamientos': tratamientos,
+                'start_date': start_date,
+                'end_date' : end_date,
+    }
+    return HttpResponse(template.render(context,request))
 
 def index(request):
     context = {}

@@ -45,6 +45,19 @@ class Agricultor(models.Model):
     def __str__(self):
         return self.nombre
 
+    def getCampanyDates(self):
+
+        start_date = datetime.date.today()
+        end_date = datetime.date.today()
+
+        if self.campanya != "":
+            icampanya = int(self.campanya)
+            start_date = datetime.date(icampanya, 1, 1)
+            end_date = datetime.date(icampanya, 12, 31)
+
+        return start_date,end_date
+
+
     @staticmethod
     def getAgricultor():
         ret = Agricultor.objects.all()[0]

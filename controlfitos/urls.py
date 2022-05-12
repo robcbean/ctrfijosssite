@@ -42,5 +42,7 @@ urlpatterns = [
     path('reports/<str:report_id>/<int:start_year>/<int:end_year>',views.report),
     path('reports/<str:report_id>/<int:start_year>/<int:end_year>/<int:cultivo>',views.report),
     path('reports/<str:report_id>/<int:start_year>/<int:end_year>/<int:cultivo>/<int:variedad>',views.report),
+    path('reports/registrotratamientos/', views.registro_tratatamientos),
+
 
 ]

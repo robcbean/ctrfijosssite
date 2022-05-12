@@ -1,0 +1,20 @@
+{% extends "controlfitos/base_template.html" %}
+{% block content %}
+    <form method="GET"> {% csrf_token %}
+    <p><a href="/controlfitos/producto/add">Añadir producto</a></p>
+    <h1>Lista de productos</h1>
+    <input type="checkbox" name="todos" {{check_todos}}}>Todos</input>
+    <input type="submit" value="Filtrar">
+    {% if producto_list %}
+    <ul>
+      {% for producto in producto_list %}
+      <li>
+        <a href="{{ producto.id }}">{{ producto.nombre | upper}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>No hay productos.</p>
+    {% endif %}
+    </form>
+{% endblock %}
