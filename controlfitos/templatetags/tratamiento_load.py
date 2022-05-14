@@ -1,22 +1,23 @@
 import sys
 
-from controlfitos.models import Producto,Variedad,Agricultor,Tratamiento
+from controlfitos.models import Producto,Variedad,Agricultor,Tratamiento,VariedadesTratamiento
 from django.template.base import TemplateSyntaxError
 from django import template
 
 register = template.Library()
-@register.tag(name='get_tratamientos')
-def get_tratamientos(parser,token):
+@register.tag(name='get_variedades_tratamientos')
+def get_variedades_tratamientos(parser,token):
     class ArrayCreator(template.Node):
 
         def __init__(self, var_name):
             self.var_name = var_name  # output variable
         def render(self, context):
             start_date,end_date = Agricultor.getAgricultor().getCampanyDates()
-            tratamientos = []
-            for tratamiento in Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date):
-                tratamientos.append(tratamiento)
-            context[self.var_name] = tratamientos
+            variedad_tratamientos = []
+            for variedad_tratamiento in VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).order_by("tratamiento__fecha"):
+                sys.stderr.write(f'variedad_tratamiento:{variedad_tratamiento.id}')
+                variedad_tratamientos.append(variedad_tratamiento)
+            context[self.var_name] = variedad_tratamientos
             return ''
 
     args = token.contents.split()  # "create_array", "as", VAR_NAME

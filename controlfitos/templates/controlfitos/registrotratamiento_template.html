@@ -4,7 +4,7 @@
 {% load tratamiento_load %}
 
 
-{% get_tratamientos as tratamientos %}
+{% get_variedades_tratamientos as variedades_tratamientos %}
 
 <h1>Registro de tratamientos en campo</h1>
 
@@ -35,15 +35,15 @@
         <td><b>Variedad</b></td>
         <td><b>Tratamiento</b></td>
     </thead>
-    {% for tratamiento in tratamientos %}
+    {% for variedades_tratamiento in variedades_tratamientos %}
         <tr>
             <td><a href="/controlfitos/cliente/{{agricultor.cliente.id}}">{{agricultor.cliente.nombre}}</a></td>
             <td>{{agricultor.cliente.cif}}</td>
-            <td>{{tratamiento.fecha|date:"d/m/y"}}</td>
-            <td><a href="/controlfitos/producto/{{tratamiento.producto.id}}">{{tratamiento.producto.nombre|upper}}</a></td>
-            <td>{{tratamiento.producto.noregistro|upper}}</td>
-            <td>TODO:Variedad</td>
-            <td><a href="/controlfitos/tipotratamiento/{{tratamiento.producto.tipoTratamiento.id}}">{{tratamiento.producto.tipoTratamiento.nombre}}</a></td>
+            <td>{{variedades_tratamiento.tratamiento.fecha|date:"d/m/y"}}</td>
+            <td><a href="/controlfitos/producto/{{variedades_tratamiento.tratamiento.producto.id}}">{{variedades_tratamiento.tratamiento.producto.nombre|upper}}</a></td>
+            <td>{{variedades_tratamiento.tratamiento.producto.noregistro|upper}}</td>
+            <td><a href="/controlfitos/variedad/{{variedades_tratamiento.variedad.id}}">{{variedades_tratamiento.variedad.nombre}}</a> </td>
+            <td><a href="/controlfitos/tipotratamiento/{{variedades_tratamiento.tratamiento.producto.tipoTratamiento.id}}">{{variedades_tratamiento.tratamiento.producto.tipoTratamiento.nombre}}</a></td>
         </tr>
     {% endfor %}
 </table>
