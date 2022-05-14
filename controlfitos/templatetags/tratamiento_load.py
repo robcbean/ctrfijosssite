@@ -1,12 +1,10 @@
+import sys
+
 from controlfitos.models import Producto,Variedad,Agricultor,Tratamiento
 from django.template.base import TemplateSyntaxError
 from django import template
 
-
 register = template.Library()
-
-
-
 @register.tag(name='get_tratamientos')
 def get_tratamientos(parser,token):
     class ArrayCreator(template.Node):
@@ -14,10 +12,9 @@ def get_tratamientos(parser,token):
         def __init__(self, var_name):
             self.var_name = var_name  # output variable
         def render(self, context):
-
-            start_date, end_date = Agricultor.getAgricultor()
+            start_date,end_date = Agricultor.getAgricultor().getCampanyDates()
             tratamientos = []
-            for tratamiento in Tratamiento.objects.filter(fecha__gte=start_date,fecha__lte=end_date):
+            for tratamiento in Tratamiento.objects.filter(fecha__gte=start_date).filter(fecha__lte=end_date):
                 tratamientos.append(tratamiento)
             context[self.var_name] = tratamientos
             return ''
@@ -28,7 +25,6 @@ def get_tratamientos(parser,token):
         raise TemplateSyntaxError("'create_array' requires 'as variable' (got %r)" % args)
 
     return ArrayCreator(args[2])
-
 
 
 

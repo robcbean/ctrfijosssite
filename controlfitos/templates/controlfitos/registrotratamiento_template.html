@@ -2,7 +2,9 @@
 {% load static %}
 {% block content %}
 {% load tratamiento_load %}
-{% get_tratamientos as tratamientos%}
+
+
+{% get_tratamientos as tratamientos %}
 
 <h1>Registro de tratamientos en campo</h1>
 
@@ -20,10 +22,13 @@
 </table>
 
 </p>
+</p>
 
 
 <table border="1">
     <thead>
+        <td><b>Cliente</b></td>
+        <td><b>NIF</b></td>
         <td><b>Fecha</b></td>
         <td><b>Producto</b></td>
         <td><b>Nº de registro</b></td>
@@ -31,7 +36,15 @@
         <td><b>Tratamiento</b></td>
     </thead>
     {% for tratamiento in tratamientos %}
-        {{tratamiento.id}}
+        <tr>
+            <td><a href="/controlfitos/cliente/{{agricultor.cliente.id}}">{{agricultor.cliente.nombre}}</a></td>
+            <td>{{agricultor.cliente.cif}}</td>
+            <td>{{tratamiento.fecha|date:"d/m/y"}}</td>
+            <td><a href="/controlfitos/producto/{{tratamiento.producto.id}}">{{tratamiento.producto.nombre|upper}}</a></td>
+            <td>{{tratamiento.producto.noregistro|upper}}</td>
+            <td>TODO:Variedad</td>
+            <td><a href="/controlfitos/tipotratamiento/{{tratamiento.producto.tipoTratamiento.id}}">{{tratamiento.producto.tipoTratamiento.nombre}}</a></td>
+        </tr>
     {% endfor %}
 </table>
 
