@@ -15,7 +15,6 @@ def get_variedades_tratamientos(parser,token):
             start_date,end_date = Agricultor.getAgricultor().getCampanyDates()
             variedad_tratamientos = []
             for variedad_tratamiento in VariedadesTratamiento.objects.filter(tratamiento__fecha__gte=start_date).order_by("tratamiento__fecha"):
-                sys.stderr.write(f'variedad_tratamiento:{variedad_tratamiento.id}')
                 variedad_tratamientos.append(variedad_tratamiento)
             context[self.var_name] = variedad_tratamientos
             return ''

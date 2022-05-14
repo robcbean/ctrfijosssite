@@ -1,0 +1,49 @@
+{% extends "controlfitos/base_template.html" %}
+{% load static %}
+{% block content %}
+{% load salida_load %}
+
+
+{% get_salidas as salidas %}
+
+<h1>Registro de salidas de campo</h1>
+
+<table border="1">
+    <thead>
+        <td><b>Agricultor</b></td>
+        <td><b>CIF</b></td>
+        <td><b>Domicilio</b></td>
+    </thead>
+    <tr>
+        <td>{{agricultor.nombre}}</td>
+        <td>{{agricultor.cif}}</td>
+        <td>{{agricultor.domicilio}}</td>
+    </tr>
+</table>
+
+</p>
+</p>
+
+
+<table border="1">
+    <thead>
+        <td><b>Cliente</b></td>
+        <td><b>NIF</b></td>
+        <td><b>Fecha</b></td>
+        <td><b>Nº de albarán</b></td>
+        <td><b>Variedad</b></td>
+        <td><b>Kilos</b></td>
+    </thead>
+    {% for salida in salidas %}
+        <tr>
+            <td><a href="/controlfitos/cliente/{{salida.cliente.id}}">{{salida.cliente.nombre}}</a></td>
+            <td>{{salida.cliente.cif}}</td>
+            <td>{{salida.cabSalida.fecha|date:"d/m/y"}}</td>
+            <td>{{salida.albaran}}</td>
+            <td><a href="/controlfitos/variedad/{{salida.variedad.id}}">{{salida.variedad.nombre|upper}}</a></td>
+            <td align="right">{{salida.cantidad}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}
