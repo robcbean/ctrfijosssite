@@ -308,16 +308,7 @@ def report(request,report_id,start_year=0,end_year=0,cultivo=0,variedad=0):
 def registro_tratatamientos(request):
 
     template = loader.get_template('controlfitos/registrotratamiento_template.html')
-    start_date, end_date = Agricultor.getAgricultor().getCampanyDates()
-    tratamientos = Tratamiento.objects.filter(fecha__gt=start_date,fecha__lt=end_date)
-    agricultor  = Agricultor.getAgricultor()
-    context = {
-                'tratamientos': tratamientos,
-                'agricultor': agricultor,
-                'start_date': start_date,
-                'end_date' : end_date,
-
-    }
+    context = {}
     return HttpResponse(template.render(context,request))
 
 def index(request):

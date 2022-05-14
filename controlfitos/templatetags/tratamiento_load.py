@@ -17,9 +17,9 @@ def get_tratamientos(parser,token):
 
             start_date, end_date = Agricultor.getAgricultor()
             tratamientos = []
-            for tratamiento in Tratamiento.objects.filter(fecha__gte=start_date,fecha__lte=end_date)
-                tratamiento.append(tratamiento)
-            context[self.var_name] = tratamiento
+            for tratamiento in Tratamiento.objects.filter(fecha__gte=start_date,fecha__lte=end_date):
+                tratamientos.append(tratamiento)
+            context[self.var_name] = tratamientos
             return ''
 
     args = token.contents.split()  # "create_array", "as", VAR_NAME

@@ -1,6 +1,9 @@
 {% extends "controlfitos/base_template.html" %}
 {% load static %}
 {% block content %}
+{% load tratamiento_load %}
+{% get_tratamientos as tratamientos%}
+
 <h1>Registro de tratamientos en campo</h1>
 
 <table border="1">
