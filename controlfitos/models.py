@@ -3,11 +3,16 @@ import django
 from django.db import models
 from django.db import connection
 
+APP_NAME: str = "controlfitos"
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=100,default='')
     domicilio = models.CharField(max_length=250,default='')
     cif = models.CharField(max_length=10,default='')
+
+    class Meta:
+        app_label = APP_NAME
+
     def __str__(self):
         return self.nombre
 
@@ -15,8 +20,16 @@ class Cliente(models.Model):
 class ConceptoGasto(models.Model):
     comentario = models.CharField(max_length=150,default=' ')
 
+    class Meta:
+        app_label = APP_NAME
+
+
 class Cultivo(models.Model):
     nombre = models.CharField(max_length=100,default='')
+
+    class Meta:
+        app_label = APP_NAME
+
     def __str__(self):
         return self.nombre
 
@@ -25,12 +38,18 @@ class Variedad(models.Model):
     nombre = models.CharField(max_length=100,default='')
     finalizada = models.IntegerField(default=0)
     cultivo = models.ForeignKey(Cultivo,on_delete=models.CASCADE)
+    class Meta:
+        app_label = APP_NAME
+
     def __str__(self):
         return self.nombre
 
 
 class TipoTratamiento(models.Model):
     nombre = models.CharField(max_length=100,default='')
+    class Meta:
+        app_label = APP_NAME
+
     def __str__(self):
         return self.nombre
 
@@ -41,6 +60,10 @@ class Agricultor(models.Model):
     domicilio = models.CharField(max_length=250,default='')
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
     cif = models.CharField(max_length=10,default='')
+
+    class Meta:
+        app_label = APP_NAME
+
 
     def __str__(self):
         return self.nombre
@@ -103,6 +126,10 @@ class Agricultor(models.Model):
 
 class CabSalida(models.Model):
     fecha = models.DateField(default=django.utils.timezone.now)
+
+    class Meta:
+        app_label = APP_NAME
+
     @staticmethod
     def getMinYear():
         cursor = connection.cursor()
@@ -115,6 +142,10 @@ class CabSalida(models.Model):
 
 
 class Producto(models.Model):
+
+    class Meta:
+        app_label = APP_NAME
+
     nombre = models.CharField(max_length=100,default='')
     nombreComercial = models.CharField(max_length=100,default='')
     noregistro = models.CharField(max_length=100,default='')
@@ -133,6 +164,10 @@ class Salida(models.Model):
     cabSalida = models.ForeignKey(CabSalida, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad, on_delete=models.CASCADE)
+
+    class Meta:
+        app_label = APP_NAME
+
 
     @staticmethod
     def delSalida(_salida_id : int):
@@ -162,6 +197,10 @@ class Tratamiento(models.Model):
     fecha = models.DateField(default=django.utils.timezone.now)
     precio = models.FloatField(default=0)
     producto = models.ForeignKey(Producto,on_delete=models.CASCADE)
+
+    class Meta:
+        app_label = APP_NAME
+
     def __str__(self):
         ret = f'{str(self.fecha)} {str(self.precio)} {str(self.producto)}'
         return ret
@@ -169,6 +208,10 @@ class Tratamiento(models.Model):
 class VariedadesTratamiento(models.Model):
     tratamiento = models.ForeignKey(Tratamiento,on_delete=models.CASCADE)
     variedad = models.ForeignKey(Variedad,on_delete=models.CASCADE)
+
+    class Meta:
+        app_label = APP_NAME
+
 
     @staticmethod
     def delVariedadTramiento(_variedad_tratamiento_id: int, _tratamiento_id: int):
